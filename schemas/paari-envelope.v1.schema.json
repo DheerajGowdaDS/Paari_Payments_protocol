@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.example/schemas/paari-envelope.v1.schema.json",
+  "title": "PaariEnvelope v1.0",
+  "type": "object",
+  "required": ["protocol", "version", "type", "message_id", "sender", "receiver", "issued_at", "expires_at", "payload", "signature"],
+  "properties": {
+    "protocol": {"const": "paari"},
+    "version": {"const": "1.0"},
+    "type": {"type": "string"},
+    "message_id": {"type": "string", "minLength": 1},
+    "sender": {"type": "string", "minLength": 1},
+    "receiver": {"type": "string", "const": "paari"},
+    "issued_at": {"type": "integer", "minimum": 0},
+    "expires_at": {"type": "integer", "minimum": 1},
+    "payload": {"type": "object"},
+    "signature": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "protocol": "paari",
+      "version": "1.0",
+      "type": "payment.intent",
+      "message_id": "msg-123",
+      "sender": "agent-123",
+      "receiver": "paari",
+      "issued_at": 1726680000,
+      "expires_at": 1726680120,
+      "payload": {"amount_minor_units": 1000},
+      "signature": "base64-ed25519-signature"
+    }
+  ]
+}

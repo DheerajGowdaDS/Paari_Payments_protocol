@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.example/schemas/paari-bounded-authorization.v1.schema.json",
+  "title": "Paari Bounded Authorization v1.0",
+  "type": "object",
+  "required": ["authorization_id", "agent_id", "transaction_id", "merchant", "amount_minor_units", "currency", "expires_at", "max_usage"],
+  "properties": {
+    "authorization_id": {"type": "string", "minLength": 1},
+    "agent_id": {"type": "string", "minLength": 1},
+    "transaction_id": {"type": "string", "minLength": 1},
+    "merchant": {"type": "string", "minLength": 1},
+    "amount_minor_units": {"type": "integer", "minimum": 1},
+    "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "max_usage": {"type": "integer", "minimum": 1},
+    "token": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "authorization_id": "auth-123",
+      "agent_id": "agent-123",
+      "transaction_id": "TXN-001",
+      "merchant": "TestMerchant",
+      "amount_minor_units": 1000,
+      "currency": "INR",
+      "expires_at": "2026-09-18T10:05:00Z",
+      "max_usage": 1,
+      "token": "eyJhbGciOiJFZERTQSIsInR5cCI6Ik..."
+    }
+  ]
+}

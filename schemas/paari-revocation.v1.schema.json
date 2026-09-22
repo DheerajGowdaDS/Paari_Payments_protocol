@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.example/schemas/paari-revocation.v1.schema.json",
+  "title": "Paari Agent Revocation v1.0",
+  "type": "object",
+  "oneOf": [
+    {
+      "title": "Agent Revoke Request (parent-signed)",
+      "required": ["revocation_id", "issued_at", "parent_signature_b64"],
+      "properties": {
+        "revocation_id": {"type": "string", "minLength": 1},
+        "issued_at": {"type": "integer", "minimum": 0},
+        "parent_signature_b64": {"type": "string", "minLength": 1}
+      }
+    },
+    {
+      "title": "Revoke Response",
+      "required": ["agent_id", "status"],
+      "properties": {
+        "agent_id": {"type": "string", "minLength": 1},
+        "status": {"type": "string"}
+      }
+    }
+  ],
+  "examples": [
+    {
+      "agent_id": "agent-123",
+      "status": "revoked"
+    }
+  ]
+}

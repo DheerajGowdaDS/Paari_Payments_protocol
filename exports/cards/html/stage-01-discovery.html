@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="cards.css">
+<title>Discovery — Stage 01</title>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div>
+      <div class="header-title">Discovery</div>
+      <div class="header-sub">Protocol Discovery Document — Paari v1.0 · bundle-TXN-proof-9c5ffd55</div>
+    </div>
+    <div class="badge">Stage 01</div>
+  </div>
+  <div class="body">
+    
+    <div class="field">
+      <div class="field-label">protocol</div>
+      <div class="mono">paari / 1.0 — paari · agentic-payment</div>
+      <div class="tag">v1.0</div>
+    </div>
+    
+    <div class="field wide">
+      <div class="field-label">base_url + discovery</div>
+      <div class="mono small">base: https://paari.example  ·  well-known: https://paari.example/.well-known/paari</div>
+      
+    </div>
+    
+    <div class="field wide">
+      <div class="field-label">agent endpoints</div>
+      <div class="mono small">register: https://paari.example/v1/agents/register
+card: https://paari.example/v1/agents/{agent_id}/card</div>
+      
+    </div>
+    
+    <div class="field wide">
+      <div class="field-label">auth</div>
+      <div class="mono small">challenge: https://paari.example/v1/auth/challenge
+verify: https://paari.example/v1/auth/verify</div>
+      
+    </div>
+    
+    <div class="field wide">
+      <div class="field-label">payment endpoints</div>
+      <div class="mono small">intent: https://paari.example/v1/payments/intent
+consume: https://paari.example/v1/payments/authorizations/{authorization_id}/consume
+webhook: https://paari.example/v1/payments/webhooks/razorpay
+reconcile/proof: https://paari.example/v1/reconcile/{authorization_id} / https://paari.example/v1/proof/{transaction_id}
+mfa: https://paari.example/v1/payments/mfa/challenge / https://paari.example/v1/payments/mfa/verify</div>
+      
+    </div>
+    
+    <div class="field wide">
+      <div class="field-label">security + algorithms</div>
+      <div class="mono small">cred=JWT-EdDSA  proof=Paari-Proof-JWT  algo=Ed25519  providers=razorpay</div>
+      
+    </div>
+    
+    <div class="field wide">
+      <div class="field-label">rules (4)</div>
+      <div class="mono small">private_keys_never_sent_to_paari · agent_authority_comes_from_signed_delegation · payment_authorization_is_single_use · settlement_requires_provider_verification</div>
+      
+    </div>
+    
+    <div class="field">
+      <div class="field-label">paari public key (head)</div>
+      <div class="mono small">MCowBQYDK2VwAyEAkw9qoRYsiPgwF5+9VgjPOeUmSHNe6U4uohbumlzURWM= …</div>
+      <div class="tag">Ed25519</div>
+    </div>
+    
+  </div>
+  <div class="footer">
+    <span style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:16px;">bundle-TXN-proof-9c5ffd55 · TXN-proof-9c5ffd55 · order_TdrLnfAh9TBQie · pay_TdrWE1S8hVE0PJ</span>
+    <span style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+      <span style="font-weight:600;color:#4f46e5">chain_verified=True</span>
+      <span class="qr" title="bundle-TXN-proof-9c5ffd55">
+        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" aria-label="QR">
+          <rect width="60" height="60" rx="4" fill="#fff"/>
+          <!-- finder patterns -->
+          <rect x="4" y="4" width="18" height="18" rx="2" fill="#4f46e5"/>
+          <rect x="7" y="7" width="12" height="12" rx="1" fill="#fff"/>
+          <rect x="10" y="10" width="6" height="6" rx="1" fill="#4f46e5"/>
+          <rect x="38" y="4" width="18" height="18" rx="2" fill="#4f46e5"/>
+          <rect x="41" y="7" width="12" height="12" rx="1" fill="#fff"/>
+          <rect x="44" y="10" width="6" height="6" rx="1" fill="#4f46e5"/>
+          <rect x="4" y="38" width="18" height="18" rx="2" fill="#4f46e5"/>
+          <rect x="7" y="41" width="12" height="12" rx="1" fill="#fff"/>
+          <rect x="10" y="44" width="6" height="6" rx="1" fill="#4f46e5"/>
+          <!-- data pattern pseudo -->
+          <rect x="24" y="8" width="4" height="4" fill="#111827"/>
+          <rect x="30" y="8" width="4" height="4" fill="#111827"/>
+          <rect x="24" y="14" width="10" height="4" fill="#111827"/>
+          <rect x="24" y="24" width="4" height="4" fill="#4f46e5"/>
+          <rect x="30" y="24" width="4" height="4" fill="#111827"/>
+          <rect x="38" y="24" width="4" height="4" fill="#111827"/>
+          <rect x="44" y="30" width="4" height="4" fill="#111827"/>
+          <rect x="8" y="26" width="4" height="4" fill="#111827"/>
+          <rect x="14" y="30" width="4" height="4" fill="#4f46e5"/>
+          <rect x="24" y="32" width="8" height="4" fill="#111827"/>
+          <rect x="36" y="36" width="14" height="4" fill="#111827"/>
+          <rect x="24" y="42" width="4" height="4" fill="#111827"/>
+          <rect x="32" y="44" width="4" height="4" fill="#4f46e5"/>
+          <rect x="40" y="42" width="4" height="4" fill="#111827"/>
+          <rect x="26" y="50" width="12" height="4" fill="#111827"/>
+        </svg>
+      </span>
+    </span>
+  </div>
+</div>
+</body>
+</html>

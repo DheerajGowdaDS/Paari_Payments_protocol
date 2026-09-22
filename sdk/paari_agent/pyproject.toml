@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "paari-agent"
+version = "1.0.0"
+description = "Reference external-agent client for the Paari Agentic Payment Protocol v1.0"
+requires-python = ">=3.10"
+dependencies = ["httpx>=0.27,<1", "PyJWT>=2.9,<3", "cryptography>=43,<44"]
+
+[tool.setuptools.packages.find]
+where = ["."]

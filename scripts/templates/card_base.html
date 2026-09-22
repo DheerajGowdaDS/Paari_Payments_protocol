@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="cards.css">
+<title>{{ stage_title }} — Stage {{ stage_num }}</title>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div>
+      <div class="header-title">{{ stage_title }}</div>
+      <div class="header-sub">{{ stage_subtitle }} · {{ bundle_id }}</div>
+    </div>
+    <div class="badge">Stage {{ stage_num }}</div>
+  </div>
+  <div class="body">
+    {% for f in fields %}
+    <div class="field{% if f.wide %} wide{% endif %}">
+      <div class="field-label">{{ f.label }}</div>
+      <div class="mono{% if f.small %} small{% endif %}">{{ f.value }}</div>
+      {% if f.tag %}<div class="tag">{{ f.tag }}</div>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  <div class="footer">
+    <span style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:16px;">{{ footer_left }}</span>
+    <span style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+      <span style="font-weight:600;color:#4f46e5">{{ footer_right }}</span>
+      <span class="qr" title="{{ bundle_id }}">
+        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" aria-label="QR">
+          <rect width="60" height="60" rx="4" fill="#fff"/>
+          <!-- finder patterns -->
+          <rect x="4" y="4" width="18" height="18" rx="2" fill="#4f46e5"/>
+          <rect x="7" y="7" width="12" height="12" rx="1" fill="#fff"/>
+          <rect x="10" y="10" width="6" height="6" rx="1" fill="#4f46e5"/>
+          <rect x="38" y="4" width="18" height="18" rx="2" fill="#4f46e5"/>
+          <rect x="41" y="7" width="12" height="12" rx="1" fill="#fff"/>
+          <rect x="44" y="10" width="6" height="6" rx="1" fill="#4f46e5"/>
+          <rect x="4" y="38" width="18" height="18" rx="2" fill="#4f46e5"/>
+          <rect x="7" y="41" width="12" height="12" rx="1" fill="#fff"/>
+          <rect x="10" y="44" width="6" height="6" rx="1" fill="#4f46e5"/>
+          <!-- data pattern pseudo -->
+          <rect x="24" y="8" width="4" height="4" fill="#111827"/>
+          <rect x="30" y="8" width="4" height="4" fill="#111827"/>
+          <rect x="24" y="14" width="10" height="4" fill="#111827"/>
+          <rect x="24" y="24" width="4" height="4" fill="#4f46e5"/>
+          <rect x="30" y="24" width="4" height="4" fill="#111827"/>
+          <rect x="38" y="24" width="4" height="4" fill="#111827"/>
+          <rect x="44" y="30" width="4" height="4" fill="#111827"/>
+          <rect x="8" y="26" width="4" height="4" fill="#111827"/>
+          <rect x="14" y="30" width="4" height="4" fill="#4f46e5"/>
+          <rect x="24" y="32" width="8" height="4" fill="#111827"/>
+          <rect x="36" y="36" width="14" height="4" fill="#111827"/>
+          <rect x="24" y="42" width="4" height="4" fill="#111827"/>
+          <rect x="32" y="44" width="4" height="4" fill="#4f46e5"/>
+          <rect x="40" y="42" width="4" height="4" fill="#111827"/>
+          <rect x="26" y="50" width="12" height="4" fill="#111827"/>
+        </svg>
+      </span>
+    </span>
+  </div>
+</div>
+</body>
+</html>

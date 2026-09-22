@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.example/schemas/paari-payment-result.v1.schema.json",
+  "title": "Paari Payment Result v1.0",
+  "type": "object",
+  "required": ["protocol", "protocol_version", "authorization_id", "transaction_id", "provider", "provider_order_id", "webhook_event", "webhook_verified", "final_state", "terminal"],
+  "properties": {
+    "protocol": {"const": "paari"},
+    "protocol_version": {"const": "1.0"},
+    "authorization_id": {"type": "string", "minLength": 1},
+    "transaction_id": {"type": "string", "minLength": 1},
+    "provider": {"type": "string", "minLength": 1},
+    "provider_order_id": {"type": ["string", "null"], "description": "Null until the provider order is created (AUTHORIZED state)."},
+    "webhook_event": {"type": ["string", "null"], "description": "Null until the first provider webhook arrives."},
+    "webhook_verified": {"type": "boolean"},
+    "final_state": {"enum": ["AUTHORIZED", "PROVIDER_SUBMITTED", "PAYMENT_PENDING", "PROVIDER_UNKNOWN", "FAILED", "PAID", "REFUNDED", "REVERSED", "EXPIRED", "CANCELLED"]},
+    "terminal": {"type": "boolean", "description": "Derived by the collector from the canonical terminal set; never set independently"}
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "authorization_id": "auth-5e8f",
+      "transaction_id": "TXN-proof-f45a2f45",
+      "provider": "razorpay",
+      "provider_order_id": "order_Q9f2c4a1b",
+      "webhook_event": "payment.captured",
+      "webhook_verified": true,
+      "final_state": "PAID",
+      "terminal": true
+    }
+  ]
+}

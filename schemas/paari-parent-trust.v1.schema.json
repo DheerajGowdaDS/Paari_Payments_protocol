@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.example/schemas/paari-parent-trust.v1.schema.json",
+  "title": "Paari Parent Trust Record v1.0",
+  "type": "object",
+  "required": ["protocol", "protocol_version", "parent_id", "status", "trust_tier"],
+  "properties": {
+    "protocol": {"const": "paari"},
+    "protocol_version": {"const": "1.0"},
+    "parent_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["pending_verification", "active", "rejected", "suspended", "revoked"]},
+    "trust_tier": {"enum": ["self_asserted", "admin_approved", "kyb_verified"]}
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "parent_id": "parent-3b7e",
+      "status": "pending_verification",
+      "trust_tier": "self_asserted"
+    }
+  ]
+}

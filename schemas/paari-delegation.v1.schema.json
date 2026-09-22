@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.example/schemas/paari-delegation.v1.schema.json",
+  "title": "Paari Signed Delegation v1.0",
+  "type": "object",
+  "required": ["protocol", "protocol_version", "delegation_id", "parent_id", "agent_public_key_fingerprint", "granted_capabilities", "payment_limit_minor_units", "currency", "issued_at", "expires_at", "signature_b64"],
+  "properties": {
+    "protocol": {"const": "paari"},
+    "protocol_version": {"const": "1.0"},
+    "delegation_id": {"type": "string", "minLength": 1},
+    "parent_id": {"type": "string", "minLength": 1},
+    "agent_public_key_fingerprint": {"type": "string", "minLength": 1},
+    "granted_capabilities": {"type": "array", "items": {"type": "string"}},
+    "payment_limit_minor_units": {"type": "integer", "minimum": 1},
+    "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+    "issued_at": {"type": "integer", "minimum": 0},
+    "expires_at": {"type": "integer", "minimum": 0},
+    "signature_b64": {"type": ["string", "null"], "minLength": 1, "description": "Null in stored/bundled records: Paari verifies the parent signature at registration and does not retain it."}
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "delegation_id": "dlg-1a2b",
+      "parent_id": "parent-3b7e",
+      "agent_public_key_fingerprint": "SHA256:9f2c4a1b",
+      "granted_capabilities": ["make_payment"],
+      "payment_limit_minor_units": 50000,
+      "currency": "INR",
+      "issued_at": 1758240000,
+      "expires_at": 1758326400,
+      "signature_b64": "cGFyaS1kZWxlZ2F0aW9uLXNpZ25hdHVyZQ=="
+    }
+  ]
+}

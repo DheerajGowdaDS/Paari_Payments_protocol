@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.example/schemas/paari-mfa.v1.schema.json",
+  "title": "Paari MFA Challenge/Verify v1.0",
+  "type": "object",
+  "oneOf": [
+    {
+      "title": "MFA Challenge Request",
+      "required": ["intent_id", "session_token"],
+      "properties": {
+        "intent_id": {"type": "string", "minLength": 1},
+        "session_token": {"type": "string", "minLength": 1}
+      }
+    },
+    {
+      "title": "MFA Challenge Response",
+      "required": ["challenge_id", "intent_id", "nonce", "context_to_sign", "expires_at"],
+      "properties": {
+        "challenge_id": {"type": "string", "minLength": 1},
+        "intent_id": {"type": "string", "minLength": 1},
+        "nonce": {"type": "string", "minLength": 1},
+        "context_to_sign": {"type": "string", "minLength": 1},
+        "expires_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    {
+      "title": "MFA Verify Request",
+      "required": ["intent_id", "challenge_id", "parent_signature_b64"],
+      "properties": {
+        "intent_id": {"type": "string", "minLength": 1},
+        "challenge_id": {"type": "string", "minLength": 1},
+        "parent_signature_b64": {"type": "string", "minLength": 1}
+      }
+    }
+  ],
+  "examples": [
+    {
+      "challenge_id": "challenge-123",
+      "intent_id": "intent-456",
+      "nonce": "nonce-abc",
+      "context_to_sign": "{\"purpose\":\"paari_mfa_step_up\",\"challenge_id\":\"challenge-123\",\"intent_id\":\"intent-456\",\"agent_id\":\"agent-123\",\"transaction_id\":\"TXN-001\",\"merchant\":\"TestMerchant\",\"amount_minor_units\":1000,\"currency\":\"INR\",\"nonce\":\"nonce-abc\"}",
+      "expires_at": "2026-09-18T10:10:00Z"
+    }
+  ]
+}

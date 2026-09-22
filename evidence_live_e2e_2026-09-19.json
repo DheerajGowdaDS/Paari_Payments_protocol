@@ -1,0 +1,413 @@
+{
+  "protocol": "paari",
+  "protocol_version": "1.0",
+  "bundle_id": "bundle-TXN-proof-9c5ffd55",
+  "transaction_id": "TXN-proof-9c5ffd55",
+  "created_at": "2026-09-19T10:17:37.256331+00:00",
+  "artifacts": {
+    "discovery": {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "issuer": "paari",
+      "service": "agentic-payment",
+      "base_url": "https://paari.example",
+      "discovery": {
+        "well_known": "https://paari.example/.well-known/paari"
+      },
+      "agent_registration": "https://paari.example/v1/agents/register",
+      "agent_card": "https://paari.example/v1/agents/{agent_id}/card",
+      "authentication": {
+        "challenge": "https://paari.example/v1/auth/challenge",
+        "verify": "https://paari.example/v1/auth/verify"
+      },
+      "payment": {
+        "intent": "https://paari.example/v1/payments/intent",
+        "consume": "https://paari.example/v1/payments/authorizations/{authorization_id}/consume",
+        "mfa_challenge": "https://paari.example/v1/payments/mfa/challenge",
+        "mfa_verify": "https://paari.example/v1/payments/mfa/verify",
+        "reconcile": "https://paari.example/v1/reconcile/{authorization_id}",
+        "proof": "https://paari.example/v1/proof/{transaction_id}",
+        "webhook": "https://paari.example/v1/payments/webhooks/razorpay"
+      },
+      "security": {
+        "credential_type": "JWT-EdDSA",
+        "request_proof": "Paari-Proof-JWT",
+        "proof_binding": "agent-public-key",
+        "mfa": "parent-authority-signature"
+      },
+      "algorithms": {
+        "agent_keys": [
+          "Ed25519"
+        ],
+        "paari_signatures": [
+          "Ed25519"
+        ]
+      },
+      "provider_boundary": {
+        "execution": "Paari-controlled",
+        "providers": [
+          "razorpay"
+        ]
+      },
+      "conformance": {
+        "spec": "https://paari.example/docs/PROTOCOL.md",
+        "tests": "https://paari.example/docs/CONFORMANCE.md",
+        "sdk": "sdk/paari_agent"
+      },
+      "paari_public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAkw9qoRYsiPgwF5+9VgjPOeUmSHNe6U4uohbumlzURWM=\n-----END PUBLIC KEY-----\n",
+      "rules": {
+        "private_keys_never_sent_to_paari": true,
+        "agent_authority_comes_from_signed_delegation": true,
+        "payment_authorization_is_single_use": true,
+        "settlement_requires_provider_verification": true
+      }
+    },
+    "parent_trust": {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "parent_id": "b89778e0-9ada-448e-b915-e4c850d85539",
+      "status": "active",
+      "trust_tier": "admin_approved"
+    },
+    "delegation": {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "delegation_id": "17a51ec3-bd39-4a11-82aa-93351f11c9aa",
+      "parent_id": "b89778e0-9ada-448e-b915-e4c850d85539",
+      "agent_public_key_fingerprint": "046c064e0d4fa19c8a5dbf57c71e9a41cfbdf130a0bfa894d768486cf33bcfda",
+      "granted_capabilities": [
+        "make_payment"
+      ],
+      "payment_limit_minor_units": 500000,
+      "currency": "INR",
+      "issued_at": 1789813057,
+      "expires_at": 1792405057,
+      "signature_b64": null
+    },
+    "agent_identity": {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "agent_id": "f358feea-b4fc-454d-853d-aea4451853b3",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA2Hw0u4ufjWJ+/zT88Xag9qyUWWyqpIHw+c8Br3cGXNA=\n-----END PUBLIC KEY-----\n",
+      "status": "revoked",
+      "delegation_id": "17a51ec3-bd39-4a11-82aa-93351f11c9aa",
+      "parent_id": "b89778e0-9ada-448e-b915-e4c850d85539"
+    },
+    "agent_card": {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "issuer": "paari",
+      "agent_id": "f358feea-b4fc-454d-853d-aea4451853b3",
+      "name": "Proof Agent 9c5ffd55",
+      "agent_type": "shopping_assistant",
+      "parent_id": "b89778e0-9ada-448e-b915-e4c850d85539",
+      "status": "revoked",
+      "public_key": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA2Hw0u4ufjWJ+/zT88Xag9qyUWWyqpIHw+c8Br3cGXNA=\n-----END PUBLIC KEY-----\n",
+      "capabilities": [
+        "payment.create"
+      ],
+      "limits": {
+        "max_amount": 500000,
+        "currency": "INR"
+      },
+      "credential_id": "a7098519-c830-4e71-adc7-059c429b1414",
+      "expires_at": "2026-10-19T10:17:37Z",
+      "endpoints": {
+        "protocol_discovery": "/.well-known/paari",
+        "agent_card": "/v1/agents/f358feea-b4fc-454d-853d-aea4451853b3/card",
+        "payment_intent": "/v1/payments/intent",
+        "consume": "/v1/payments/authorizations/{authorization_id}/consume"
+      },
+      "card_signature_b64": "PboxYofUKjn/guv0C0TnIEpZmHncFRwed81IQX5u4k8s+uMy4LAtpXDzGe1hF+4ba0Hqk62QBYsRKXQHsWH0AQ==",
+      "paari_public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAkw9qoRYsiPgwF5+9VgjPOeUmSHNe6U4uohbumlzURWM=\n-----END PUBLIC KEY-----\n"
+    },
+    "credential": {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "credential_id": "a7098519-c830-4e71-adc7-059c429b1414",
+      "agent_id": "f358feea-b4fc-454d-853d-aea4451853b3",
+      "issued_at": "2026-09-19T10:17:37.185956+00:00",
+      "expires_at": "2026-10-19T10:17:37+00:00",
+      "revoked": true,
+      "superseded_by": null,
+      "status": "revoked",
+      "capabilities": [
+        "make_payment"
+      ],
+      "payment_limit_minor_units": 500000,
+      "currency": "INR"
+    },
+    "authentication": {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "agent_id": "f358feea-b4fc-454d-853d-aea4451853b3",
+      "authenticated": false,
+      "credential_id": "a7098519-c830-4e71-adc7-059c429b1414",
+      "credential_status": "revoked",
+      "nonce_id": "3d1a24c0-7a81-4436-bd3a-ee36e5641e95",
+      "nonce_used": true,
+      "nonce_expires_at": "2026-09-19T10:19:37.207635+00:00"
+    },
+    "payment_intent": {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "intent_id": "c25087c8-b6c8-4b57-bd51-706bfa5e1914",
+      "agent_id": "f358feea-b4fc-454d-853d-aea4451853b3",
+      "transaction_id": "TXN-proof-9c5ffd55",
+      "decision": "allow",
+      "reasons": [
+        "all checks passed"
+      ],
+      "mfa_required": false
+    },
+    "governance_decision": {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "intent_id": "c25087c8-b6c8-4b57-bd51-706bfa5e1914",
+      "agent_id": "f358feea-b4fc-454d-853d-aea4451853b3",
+      "transaction_id": "TXN-proof-9c5ffd55",
+      "merchant": "ProofStore",
+      "decision": "allow",
+      "reasons": [
+        "all checks passed"
+      ],
+      "policy_results": [
+        {
+          "name": "parent_check",
+          "passed": true,
+          "detail": "parent authority is active"
+        },
+        {
+          "name": "delegation_expiry",
+          "passed": true,
+          "detail": "agent delegation is not expired"
+        },
+        {
+          "name": "amount_check",
+          "passed": true,
+          "detail": "amount is positive"
+        },
+        {
+          "name": "capability_check",
+          "passed": true,
+          "detail": "agent is delegated capability 'make_payment'"
+        },
+        {
+          "name": "limit_check",
+          "passed": true,
+          "detail": "amount 100 is within delegated limit 500000"
+        },
+        {
+          "name": "currency_check",
+          "passed": true,
+          "detail": "currency INR matches delegated currency INR"
+        }
+      ],
+      "mfa_required": false
+    },
+    "bounded_authorization": {
+      "authorization_id": "c25087c8-b6c8-4b57-bd51-706bfa5e1914",
+      "agent_id": "f358feea-b4fc-454d-853d-aea4451853b3",
+      "transaction_id": "TXN-proof-9c5ffd55",
+      "merchant": "ProofStore",
+      "amount_minor_units": 100,
+      "currency": "INR",
+      "expires_at": "2026-09-19T10:19:37.262335+00:00",
+      "max_usage": 1
+    },
+    "payment_execution": {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "authorization_id": "c25087c8-b6c8-4b57-bd51-706bfa5e1914",
+      "state": "PAID",
+      "razorpay_order_id": "order_TdrLnfAh9TBQie"
+    },
+    "payment_result": {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "authorization_id": "c25087c8-b6c8-4b57-bd51-706bfa5e1914",
+      "transaction_id": "TXN-proof-9c5ffd55",
+      "provider": "razorpay",
+      "provider_order_id": "order_TdrLnfAh9TBQie",
+      "webhook_event": "435a6e267c7929cf161f3d8e2a9e9a6cd953cd4dc04095848b5ad2b7ed45e9b6",
+      "webhook_verified": true,
+      "final_state": "PAID",
+      "terminal": true
+    },
+    "audit_record": {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "transaction_id": "TXN-proof-9c5ffd55",
+      "chain_verified": true,
+      "events": [
+        {
+          "event_id": "4",
+          "kind": "intent_decided",
+          "event_type": "intent_decided",
+          "actor": "f358feea-b4fc-454d-853d-aea4451853b3",
+          "transaction_id": "TXN-proof-9c5ffd55",
+          "detail": {
+            "intent_id": "c25087c8-b6c8-4b57-bd51-706bfa5e1914",
+            "decision": "allow",
+            "reasons": [
+              "all checks passed"
+            ],
+            "policy_results": [
+              {
+                "name": "parent_check",
+                "passed": true,
+                "detail": "parent authority is active"
+              },
+              {
+                "name": "delegation_expiry",
+                "passed": true,
+                "detail": "agent delegation is not expired"
+              },
+              {
+                "name": "amount_check",
+                "passed": true,
+                "detail": "amount is positive"
+              },
+              {
+                "name": "capability_check",
+                "passed": true,
+                "detail": "agent is delegated capability 'make_payment'"
+              },
+              {
+                "name": "limit_check",
+                "passed": true,
+                "detail": "amount 100 is within delegated limit 500000"
+              },
+              {
+                "name": "currency_check",
+                "passed": true,
+                "detail": "currency INR matches delegated currency INR"
+              }
+            ],
+            "amount_minor_units": 100,
+            "currency": "INR",
+            "merchant": "ProofStore",
+            "action": "make_payment"
+          },
+          "previous_state": null,
+          "current_state": null,
+          "reasons": [
+            "all checks passed"
+          ],
+          "prev_hash": "GENESIS",
+          "event_hash": "991656e4f18bb479fd1c5870d2c9576499e497bbc2c2884a1818d05bff67e34a"
+        },
+        {
+          "event_id": "5",
+          "kind": "authorization_minted",
+          "event_type": "authorization_minted",
+          "actor": "f358feea-b4fc-454d-853d-aea4451853b3",
+          "transaction_id": "TXN-proof-9c5ffd55",
+          "detail": {
+            "authorization_id": "c25087c8-b6c8-4b57-bd51-706bfa5e1914",
+            "amount_minor_units": 100,
+            "currency": "INR",
+            "merchant": "ProofStore",
+            "expires_at": "2026-09-19T10:19:37.262335+00:00",
+            "previous_state": "AUTHORIZED",
+            "current_state": "AUTHORIZED"
+          },
+          "previous_state": "AUTHORIZED",
+          "current_state": "AUTHORIZED",
+          "reasons": [],
+          "prev_hash": "991656e4f18bb479fd1c5870d2c9576499e497bbc2c2884a1818d05bff67e34a",
+          "event_hash": "3947c46381a0135a6057a496b4e95f494a54f881e7eeb99a555880dfd32a1eeb"
+        },
+        {
+          "event_id": "6",
+          "kind": "authorization_consumed",
+          "event_type": "authorization_consumed",
+          "actor": "f358feea-b4fc-454d-853d-aea4451853b3",
+          "transaction_id": "TXN-proof-9c5ffd55",
+          "detail": {
+            "authorization_id": "c25087c8-b6c8-4b57-bd51-706bfa5e1914",
+            "remaining_uses": 0,
+            "previous_state": "PROVIDER_SUBMITTED",
+            "current_state": "PROVIDER_SUBMITTED"
+          },
+          "previous_state": "PROVIDER_SUBMITTED",
+          "current_state": "PROVIDER_SUBMITTED",
+          "reasons": [],
+          "prev_hash": "3947c46381a0135a6057a496b4e95f494a54f881e7eeb99a555880dfd32a1eeb",
+          "event_hash": "e0bc5ad046b4d2a44437fc9e35ed38d03201376e541e4bf09dc14e6b94db2441"
+        },
+        {
+          "event_id": "7",
+          "kind": "order_submitted",
+          "event_type": "order_submitted",
+          "actor": "f358feea-b4fc-454d-853d-aea4451853b3",
+          "transaction_id": "TXN-proof-9c5ffd55",
+          "detail": {
+            "authorization_id": "c25087c8-b6c8-4b57-bd51-706bfa5e1914",
+            "razorpay_order_id": "order_TdrLnfAh9TBQie",
+            "amount_minor_units": 100,
+            "currency": "INR",
+            "previous_state": "AUTHORIZED",
+            "current_state": "PROVIDER_SUBMITTED"
+          },
+          "previous_state": "AUTHORIZED",
+          "current_state": "PROVIDER_SUBMITTED",
+          "reasons": [],
+          "prev_hash": "e0bc5ad046b4d2a44437fc9e35ed38d03201376e541e4bf09dc14e6b94db2441",
+          "event_hash": "cf6e39ef5ee65b9adf86f72d5b3f3df04319fef23260443914f78fb6ece94572"
+        },
+        {
+          "event_id": "8",
+          "kind": "webhook_applied",
+          "event_type": "webhook_applied",
+          "actor": "f358feea-b4fc-454d-853d-aea4451853b3",
+          "transaction_id": "TXN-proof-9c5ffd55",
+          "detail": {
+            "event_type": "payment.authorized",
+            "event_id": "928151a6c956ff454429f58580379cc09948b0f2181c3c63b04639ffca0202f0",
+            "from_state": "PROVIDER_SUBMITTED",
+            "to_state": "PAYMENT_PENDING",
+            "order_id": "order_TdrLnfAh9TBQie",
+            "payment_id": "pay_TdrWE1S8hVE0PJ",
+            "amount_minor_units": 100,
+            "currency": "INR"
+          },
+          "previous_state": "PROVIDER_SUBMITTED",
+          "current_state": "PAYMENT_PENDING",
+          "reasons": [],
+          "prev_hash": "cf6e39ef5ee65b9adf86f72d5b3f3df04319fef23260443914f78fb6ece94572",
+          "event_hash": "3cff427613e960d93a6fb5bf60d7c532f11adaaa0f6293a4c479a76e3a8e3706"
+        },
+        {
+          "event_id": "9",
+          "kind": "webhook_applied",
+          "event_type": "webhook_applied",
+          "actor": "f358feea-b4fc-454d-853d-aea4451853b3",
+          "transaction_id": "TXN-proof-9c5ffd55",
+          "detail": {
+            "event_type": "payment.captured",
+            "event_id": "435a6e267c7929cf161f3d8e2a9e9a6cd953cd4dc04095848b5ad2b7ed45e9b6",
+            "from_state": "PAYMENT_PENDING",
+            "to_state": "PAID",
+            "order_id": "order_TdrLnfAh9TBQie",
+            "payment_id": "pay_TdrWE1S8hVE0PJ",
+            "amount_minor_units": 100,
+            "currency": "INR"
+          },
+          "previous_state": "PAYMENT_PENDING",
+          "current_state": "PAID",
+          "reasons": [],
+          "prev_hash": "3cff427613e960d93a6fb5bf60d7c532f11adaaa0f6293a4c479a76e3a8e3706",
+          "event_hash": "5e8598ebe60b7ddc86a06a2f71b19571cf230cd55010419cad43dcd14f6e2848"
+        }
+      ]
+    },
+    "revocation": {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "agent_id": "f358feea-b4fc-454d-853d-aea4451853b3",
+      "revoked": true,
+      "revocation_id": null
+    }
+  }
+}

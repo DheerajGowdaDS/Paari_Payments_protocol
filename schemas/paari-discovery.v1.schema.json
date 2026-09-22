@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.example/schemas/paari-discovery.v1.schema.json",
+  "title": "Paari Discovery Document v1.0",
+  "type": "object",
+  "required": ["protocol", "protocol_version", "issuer", "service", "base_url", "discovery", "agent_registration", "agent_card", "authentication", "payment", "security", "algorithms", "provider_boundary", "conformance", "paari_public_key_pem", "rules"],
+  "properties": {
+    "protocol": {"const": "paari"},
+    "protocol_version": {"const": "1.0"},
+    "issuer": {"const": "paari"},
+    "service": {"const": "agentic-payment"},
+    "base_url": {"type": "string", "format": "uri"},
+    "discovery": {"type": "object", "required": ["well_known"], "properties": {"well_known": {"type": "string", "format": "uri"}}},
+    "agent_registration": {"type": "string", "format": "uri"},
+    "agent_card": {"type": "string", "format": "uri-template"},
+    "authentication": {
+      "type": "object",
+      "required": ["challenge", "verify"],
+      "properties": {
+        "challenge": {"type": "string", "format": "uri"},
+        "verify": {"type": "string", "format": "uri"}
+      }
+    },
+    "payment": {
+      "type": "object",
+      "required": ["intent", "consume", "mfa_challenge", "mfa_verify", "reconcile", "webhook"],
+      "properties": {
+        "intent": {"type": "string", "format": "uri"},
+        "consume": {"type": "string", "format": "uri-template"},
+        "mfa_challenge": {"type": "string", "format": "uri"},
+        "mfa_verify": {"type": "string", "format": "uri"},
+        "reconcile": {"type": "string", "format": "uri-template"},
+        "proof": {"type": "string", "format": "uri-template"},
+        "webhook": {"type": "string", "format": "uri"}
+      }
+    },
+    "security": {
+      "type": "object",
+      "required": ["credential_type", "request_proof", "proof_binding", "mfa"],
+      "properties": {
+        "credential_type": {"type": "string"},
+        "request_proof": {"type": "string"},
+        "proof_binding": {"type": "string"},
+        "mfa": {"type": "string"}
+      }
+    },
+    "algorithms": {"type": "object", "required": ["agent_keys", "paari_signatures"], "properties": {"agent_keys": {"type": "array", "items": {"type": "string"}}, "paari_signatures": {"type": "array", "items": {"type": "string"}}}},
+    "provider_boundary": {"type": "object", "required": ["execution", "providers"], "properties": {"execution": {"type": "string"}, "providers": {"type": "array", "items": {"type": "string"}}}},
+    "conformance": {"type": "object", "required": ["spec", "tests", "sdk"], "properties": {"spec": {"type": "string"}, "tests": {"type": "string"}, "sdk": {"type": "string"}}},
+    "paari_public_key_pem": {"type": "string", "minLength": 1},
+    "rules": {"type": "object", "required": ["private_keys_never_sent_to_paari", "agent_authority_comes_from_signed_delegation", "payment_authorization_is_single_use", "settlement_requires_provider_verification"], "properties": {"private_keys_never_sent_to_paari": {"type": "boolean"}, "agent_authority_comes_from_signed_delegation": {"type": "boolean"}, "payment_authorization_is_single_use": {"type": "boolean"}, "settlement_requires_provider_verification": {"type": "boolean"}}}
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "issuer": "paari",
+      "service": "agentic-payment",
+      "base_url": "https://paari.example",
+      "discovery": {"well_known": "https://paari.example/.well-known/paari"},
+      "agent_registration": "https://paari.example/v1/agents/register",
+      "agent_card": "https://paari.example/v1/agents/{agent_id}/card",
+      "authentication": {"challenge": "https://paari.example/v1/auth/challenge", "verify": "https://paari.example/v1/auth/verify"},
+      "payment": {"intent": "https://paari.example/v1/payments/intent", "consume": "https://paari.example/v1/payments/authorizations/{authorization_id}/consume", "mfa_challenge": "https://paari.example/v1/payments/mfa/challenge", "mfa_verify": "https://paari.example/v1/payments/mfa/verify", "reconcile": "https://paari.example/v1/reconcile/{authorization_id}", "proof": "https://paari.example/v1/proof/{transaction_id}", "webhook": "https://paari.example/v1/payments/webhooks/razorpay"},
+      "security": {"credential_type": "JWT-EdDSA", "request_proof": "Paari-Proof-JWT", "proof_binding": "agent-public-key", "mfa": "parent-authority-signature"},
+      "algorithms": {"agent_keys": ["Ed25519"], "paari_signatures": ["Ed25519"]},
+      "provider_boundary": {"execution": "Paari-controlled", "providers": ["razorpay"]},
+      "conformance": {"spec": "https://paari.example/docs/PROTOCOL.md", "tests": "https://paari.example/docs/CONFORMANCE.md", "sdk": "sdk/paari_agent"},
+      "paari_public_key_pem": "-----BEGIN PUBLIC KEY-----\n...",
+      "rules": {"private_keys_never_sent_to_paari": true, "agent_authority_comes_from_signed_delegation": true, "payment_authorization_is_single_use": true, "settlement_requires_provider_verification": true}
+    }
+  ]
+}

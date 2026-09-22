@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.example/schemas/paari-consume.v1.schema.json",
+  "title": "Paari Consume Authorization v1.0",
+  "type": "object",
+  "required": ["authorization_id", "consumed", "remaining_uses", "state"],
+  "properties": {
+    "authorization_id": {"type": "string", "minLength": 1},
+    "consumed": {"type": "boolean"},
+    "remaining_uses": {"type": "integer", "minimum": 0},
+    "state": {"type": "string"},
+    "razorpay_order_id": {"type": ["string", "null"]},
+    "razorpay_payment_id": {"type": ["string", "null"]}
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "authorization_id": "auth-123",
+      "consumed": true,
+      "remaining_uses": 0,
+      "state": "PAYMENT_PENDING",
+      "razorpay_order_id": "order_abc123",
+      "razorpay_payment_id": null
+    }
+  ]
+}

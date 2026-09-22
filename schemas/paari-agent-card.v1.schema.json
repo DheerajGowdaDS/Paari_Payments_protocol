@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.example/schemas/paari-agent-card.v1.schema.json",
+  "title": "Paari Agent Card v1.0",
+  "type": "object",
+  "required": ["protocol", "protocol_version", "issuer", "agent_id", "name", "agent_type", "parent_id", "status", "public_key", "capabilities", "limits", "credential_id", "expires_at", "endpoints", "card_signature_b64", "paari_public_key_pem"],
+  "properties": {
+    "protocol": {"const": "paari"},
+    "protocol_version": {"const": "1.0"},
+    "issuer": {"const": "paari"},
+    "agent_id": {"type": "string", "minLength": 1},
+    "name": {"type": "string"},
+    "agent_type": {"type": "string"},
+    "parent_id": {"type": "string", "minLength": 1},
+    "status": {"type": "string"},
+    "public_key": {"type": "string", "minLength": 1},
+    "capabilities": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "object", "required": ["max_amount", "currency"], "properties": {"max_amount": {"type": "integer", "minimum": 1}, "currency": {"type": "string", "minLength": 3}}},
+    "credential_id": {"type": "string"},
+    "expires_at": {"type": ["string", "null"]},
+    "endpoints": {"type": "object", "additionalProperties": {"type": "string"}},
+    "card_signature_b64": {"type": "string", "minLength": 1},
+    "paari_public_key_pem": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "issuer": "paari",
+      "agent_id": "agent-123",
+      "name": "Test Agent",
+      "agent_type": "shopping_assistant",
+      "parent_id": "parent-456",
+      "status": "active",
+      "public_key": "-----BEGIN PUBLIC KEY-----\n...",
+      "capabilities": ["payment.create"],
+      "limits": {"max_amount": 500000, "currency": "INR"},
+      "credential_id": "cred-789",
+      "expires_at": "2026-10-18T10:00:00Z",
+      "endpoints": {"protocol_discovery": "/.well-known/paari", "agent_card": "/v1/agents/agent-123/card", "payment_intent": "/v1/payments/intent", "consume": "/v1/payments/authorizations/{authorization_id}/consume"},
+      "card_signature_b64": "base64-signature",
+      "paari_public_key_pem": "-----BEGIN PUBLIC KEY-----\n..."
+    }
+  ]
+}
