@@ -1,0 +1,44 @@
+name: Paari CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements-dev.txt
+      - run: python -m compileall -q app sdk scripts
+      - run: pytest -q
+
+  postgres-migration:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: paari
+          POSTGRES_PASSWORD: paari
+          POSTGRES_DB: paari
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 1s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements-dev.txt -r requirements-postgres.txt
+      - run: python -m compileall -q app sdk scripts
+      - env:
+          DATABASE_URL: postgresql://paari:paari@127.0.0.1:5432/paari
+        run: pytest -q tests/test_postgres_migration.py

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.example/schemas/paari-audit-record.v1.schema.json",
+  "title": "Paari Audit Record v1.0",
+  "type": "object",
+  "required": ["protocol", "protocol_version", "transaction_id", "chain_verified", "events"],
+  "properties": {
+    "protocol": {"const": "paari"},
+    "protocol_version": {"const": "1.0"},
+    "transaction_id": {"type": "string", "minLength": 1},
+    "chain_verified": {"type": "boolean", "description": "Paari recomputed every hash link for this trail; false means the stored chain no longer verifies."},
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["event_id", "event_type", "actor", "previous_state", "current_state", "reasons", "prev_hash", "event_hash"],
+        "properties": {
+          "event_id": {"type": "string", "minLength": 1},
+          "event_type": {"type": "string", "minLength": 1},
+          "actor": {"type": "string", "minLength": 1},
+          "transaction_id": {"type": "string", "minLength": 1},
+          "previous_state": {"type": ["string", "null"]},
+          "current_state": {"type": ["string", "null"]},
+          "reasons": {"type": "array", "items": {"type": "string"}},
+          "prev_hash": {"type": "string", "minLength": 1},
+          "event_hash": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "transaction_id": "TXN-proof-f45a2f45",
+      "chain_verified": true,
+      "events": [
+        {
+          "event_id": "evt-77aa",
+          "event_type": "intent_decided",
+          "actor": "agent-7d1a",
+          "transaction_id": "TXN-proof-f45a2f45",
+          "previous_state": null,
+          "current_state": "AUTHORIZED",
+          "reasons": ["all checks passed"],
+          "prev_hash": "e3b0c44298fc1c149afbf4c8996fb924",
+          "event_hash": "9f2c4a1b77aa55ee01d3c4b5a6f70899"
+        },
+        {
+          "event_id": "evt-77ab",
+          "event_type": "payment.settled",
+          "actor": "agent-7d1a",
+          "transaction_id": "TXN-proof-f45a2f45",
+          "previous_state": "AUTHORIZED",
+          "current_state": "PAID",
+          "reasons": ["webhook verified"],
+          "prev_hash": "9f2c4a1b77aa55ee01d3c4b5a6f70899",
+          "event_hash": "c4a1b77aa55ee01d3c4b5a6f7089977d"
+        }
+      ]
+    }
+  ]
+}

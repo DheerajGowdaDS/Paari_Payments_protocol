@@ -1,0 +1,38 @@
+# Runtime secrets and state. paari_signing_key.pem is an UNENCRYPTED Ed25519
+# private key: committing it would let anyone mint Paari-issued credentials,
+# and every token issued under the committed key stays forgeable forever.
+*.pem
+*.key
+
+# Databases (runtime + test fixtures)
+*.db
+*.db-journal
+*.db.pre-*
+
+# Local secret files (live E2E / deployment env)
+.env
+.env.*
+# ...except the two files that must be shared: `.env.example` is what a
+# contributor copies, and `.env.test` is the suite's declared baseline. A
+# gitignored test configuration is a file that only exists on one machine.
+!.env.example
+!.env.test
+*_env.ps1
+
+# Runtime server logs (regenerated on every local run)
+*.log
+
+# Tooling caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.benchmarks/
+.mimocode/
+
+# Local-only: these carry a real Razorpay test key id and stay out of the repo
+/checkout_pay.html
+/evidence_live_e2e_2026-09-19.md
+
+# Virtualenvs
+venv/
+.venv/

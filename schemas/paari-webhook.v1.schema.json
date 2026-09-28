@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.example/schemas/paari-webhook.v1.schema.json",
+  "title": "Paari Razorpay Webhook Event v1.0",
+  "type": "object",
+  "required": ["event", "payload"],
+  "properties": {
+    "event": {"type": "string", "minLength": 1},
+    "payload": {
+      "type": "object",
+      "required": ["payment"],
+      "properties": {
+        "payment": {
+          "type": "object",
+          "required": ["entity"],
+          "properties": {
+            "entity": {
+              "type": "object",
+              "required": ["id", "order_id", "amount", "currency", "status"],
+              "properties": {
+                "id": {"type": "string", "minLength": 1},
+                "order_id": {"type": "string", "minLength": 1},
+                "amount": {"type": "integer", "minimum": 1},
+                "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+                "status": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        }
+      }
+    },
+    "id": {"type": "string"}
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "event": "payment.captured",
+      "payload": {
+        "payment": {
+          "entity": {
+            "id": "pay_abc123",
+            "order_id": "order_abc123",
+            "amount": 1000,
+            "currency": "INR",
+            "status": "captured"
+          }
+        }
+      },
+      "id": "evt_webhook_123"
+    }
+  ]
+}

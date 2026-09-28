@@ -1,0 +1,52 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - PAARI_ENV=${PAARI_ENV:-sandbox}
+      - DATABASE_URL=postgresql+psycopg://paari:paari@db:5432/paari
+      - PAARI_DATABASE_URL=${PAARI_DATABASE_URL:-}
+      - PAARI_ADMIN_API_KEY=${PAARI_ADMIN_API_KEY:-}
+      - PAARI_SIGNING_KEY_PATH=${PAARI_SIGNING_KEY_PATH:-/app/secrets/paari_signing_key.pem}
+      - PAARI_MODE=${PAARI_MODE:-standard}
+      - PAARI_REQUIRE_USER_MANDATE=${PAARI_REQUIRE_USER_MANDATE:-0}
+      - PAARI_REQUIRE_SIGNED_MANDATE=${PAARI_REQUIRE_SIGNED_MANDATE:-0}
+      - PAARI_RECONCILE_INTERVAL=${PAARI_RECONCILE_INTERVAL:-60}
+      - PAARI_RECONCILE_DEAD_LETTER_AFTER=${PAARI_RECONCILE_DEAD_LETTER_AFTER:-5}
+      - RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID:-}
+      - RAZORPAY_KEY_SECRET=${RAZORPAY_KEY_SECRET:-}
+      - RAZORPAY_WEBHOOK_SECRET=${RAZORPAY_WEBHOOK_SECRET:-}
+      - RAZORPAY_API_BASE=${RAZORPAY_API_BASE:-https://api.razorpay.com/v1}
+    volumes:
+      - signing_keys:/app/secrets
+      - paari_data:/app/data
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=paari
+      - POSTGRES_PASSWORD=paari
+      - POSTGRES_DB=paari
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U paari -d paari"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  signing_keys:
+  paari_data:

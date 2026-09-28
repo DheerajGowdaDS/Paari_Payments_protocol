@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.example/schemas/paari-session.v1.schema.json",
+  "title": "Paari Session Token v1.0",
+  "type": "object",
+  "required": ["iss", "aud", "sub", "jti", "iat", "exp", "typ", "protocol_version", "capabilities", "payment_limit_minor_units", "currency"],
+  "properties": {
+    "iss": {"const": "paari"},
+    "aud": {"const": "paari-payment"},
+    "sub": {"type": "string", "minLength": 1},
+    "jti": {"type": "string", "minLength": 1},
+    "iat": {"type": "integer", "minimum": 0},
+    "exp": {"type": "integer", "minimum": 1},
+    "typ": {"const": "paari_session"},
+    "protocol_version": {"const": "1.0"},
+    "capabilities": {"type": "array", "items": {"type": "string"}},
+    "payment_limit_minor_units": {"type": "integer", "minimum": 1},
+    "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+    "cnf": {"type": "object", "properties": {"jkt": {"type": "string"}}}
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "iss": "paari",
+      "aud": "paari-payment",
+      "sub": "agent-123",
+      "jti": "session-abc",
+      "iat": 1726680000,
+      "exp": 1726680900,
+      "typ": "paari_session",
+      "protocol_version": "1.0",
+      "capabilities": ["payment.create"],
+      "payment_limit_minor_units": 500000,
+      "currency": "INR",
+      "cnf": {"jkt": "fingerprint-hex"}
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+<!doctype html>
+<!--
+  Razorpay Test-Mode checkout page, for proving settlement end to end.
+
+  Why this exists: a real provider webhook can only be produced by a real
+  provider event, and in Razorpay's model a `payment.captured` event requires a
+  person to complete checkout for the order Paari created. `POST /payment_links`
+  with an `order_id` is rejected on this account ("extra fields sent"), so this
+  is the standard path instead: Razorpay Checkout opened against the exact order
+  Paari's consume step created.
+
+  Nothing secret is here. Checkout is given only the publishable key id, which is
+  public by design; the key secret never leaves the server. Paari's agent/SDK
+  surfaces likewise never see a card number, CVV, PIN or secret - which is the
+  whole point of the boundary this page sits outside.
+
+  Serve it locally, do not host it publicly:
+      python -m http.server 8020 --directory scripts
+      http://localhost:8020/checkout_demo.html?order_id=order_XXXX
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Paari - Test-Mode settlement</title>
+    <style>
+      body { font: 15px/1.5 system-ui, sans-serif; margin: 3rem auto; max-width: 34rem; color: #17181c; }
+      code { background: #f2f3f5; padding: 2px 6px; border-radius: 4px; }
+      .box { border: 1px solid #d8dbe0; border-radius: 10px; padding: 1.2rem 1.4rem; }
+      button { font: inherit; padding: .7rem 1.3rem; border: 0; border-radius: 8px; background: #1a5cff; color: #fff; cursor: pointer; }
+      button[disabled] { background: #9aa3b2; cursor: default; }
+      #status { margin-top: 1rem; min-height: 1.4rem; color: #4a4f57; }
+      .warn { color: #8a6d1a; }
+    </style>
+  </head>
+  <body>
+    <h1>Paari settlement test</h1>
+
+    <div class="box">
+      <p>Order to pay: <code id="order">—</code></p>
+      <p>Amount: <strong>Rupee 1.00</strong> (Razorpay Test Mode — no real money).</p>
+      <p>
+        <button id="pay" disabled>Pay with Razorpay Checkout</button>
+      </p>
+      <div id="status"></div>
+    </div>
+
+    <p class="warn">
+      After paying, stay on this page. Razorpay will POST a signed
+      <code>payment.captured</code> event to the Paari webhook listener through
+      the tunnel; that delivery — not this page — is what moves the
+      <code>ProviderTransaction</code> to <code>PAID</code>.
+    </p>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const orderId = params.get("order_id") || "";
+      const keyId = params.get("key_id") || "";
+      const statusEl = document.getElementById("status");
+      document.getElementById("order").textContent = orderId || "missing ?order_id=";
+
+      if (!orderId || !keyId) {
+        // A silently disabled button reads as a broken page. Say exactly what is
+        // missing and show the URL that works, because this is the single most
+        // common way to get no value at all out of the browser callback flow.
+        const missing = [];
+        if (!orderId) missing.push("order_id");
+        if (!keyId) missing.push("key_id");
+        statusEl.innerHTML =
+          "<strong>Pay button disabled: missing <code>" + missing.join("</code> and <code>") +
+          "</code></strong><br>Open the page like this:<br><code>" + location.pathname +
+          "?order_id=order_XXXX&amp;key_id=rzp_test_XXXX</code>";
+      } else {
+        document.getElementById("pay").disabled = false;
+        statusEl.textContent = "Ready to pay " + orderId + " in Test Mode.";
+      }
+
+      document.getElementById("pay").onclick = () => {
+        const rzp = new Razorpay({
+          key: keyId,
+          order_id: orderId,
+          amount: 100,               // Rs 1.00, in paise - must match the order
+          currency: "INR",
+          name: "Paari",
+          description: "Governance settlement test",
+          prefill: { name: "Paari Proof", email: "proof@example.com", contact: "9999999999" },
+          theme: { color: "#1a5cff" },
+          handler: (response) => {
+            // The provider payment id lands in Paari only via the webhook or
+            // reconciliation, never from this browser callback - so a success
+            // here is a step, not the proof.
+            statusEl.textContent =
+              "Paid. provider payment id = " + response.razorpay_payment_id +
+              " — waiting for Razorpay's webhook to settle it in Paari.";
+          },
+          modal_ondownload: true,
+        });
+        rzp.on("payment.failed", (resp) => {
+          statusEl.textContent = "Payment failed: " + JSON.stringify(resp.error.description);
+        });
+        rzp.open();
+      };
+    </script>
+  </body>
+</html>

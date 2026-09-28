@@ -1,0 +1,11 @@
+﻿........................................................................ [ 27%]
+............................................ss.......................... [ 54%]
+........................................................................ [ 82%]
+...............................................                          [100%]
+============================== warnings summary ===============================
+..\..\..\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\formparsers.py:12
+  C:\Users\gowda\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+261 passed, 2 skipped, 1 warning in 109.58s (0:01:49)

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.dev/schemas/paari-payment-intent.v1.schema.json",
+  "title": "Paari Payment Intent v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["agent_id", "transaction_id", "merchant", "amount_minor_units", "currency", "action", "idempotency_key"],
+  "properties": {
+    "agent_id": {"type": "string", "minLength": 1},
+    "session_token": {"type": "string", "description": "Legacy compatibility only; new clients should use Authorization: Bearer."},
+    "transaction_id": {"type": "string", "minLength": 1},
+    "merchant": {"type": "string", "minLength": 1},
+    "amount_minor_units": {"type": "integer", "minimum": 1},
+    "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+    "action": {"type": "string", "minLength": 1},
+    "idempotency_key": {"type": "string", "minLength": 8, "maxLength": 255},
+    "purpose": {"type": ["string", "null"]}
+  },
+  "examples": [
+    {
+      "agent_id": "agent-123",
+      "session_token": "eyJhbGciOiJFZERTQSIsInR5cCI6Ik...",
+      "transaction_id": "TXN-001",
+      "merchant": "TestMerchant",
+      "amount_minor_units": 1000,
+      "currency": "INR",
+      "action": "make_payment",
+      "idempotency_key": "idem-TXN-001",
+      "purpose": "test payment"
+    }
+  ]
+}

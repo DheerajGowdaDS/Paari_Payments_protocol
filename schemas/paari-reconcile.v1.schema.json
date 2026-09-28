@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.example/schemas/paari-reconcile.v1.schema.json",
+  "title": "Paari Reconcile Request v1.0",
+  "type": "object",
+  "required": ["session_token"],
+  "properties": {
+    "session_token": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "session_token": "eyJhbGciOiJFZERTQSIsInR5cCI6Ik..."
+    }
+  ]
+}

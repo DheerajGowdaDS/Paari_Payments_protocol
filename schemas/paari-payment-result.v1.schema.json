@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paari.example/schemas/paari-payment-result.v1.schema.json",
+  "title": "Paari Payment Result v1.0",
+  "type": "object",
+  "required": [
+    "protocol",
+    "protocol_version",
+    "authorization_id",
+    "transaction_id",
+    "provider",
+    "provider_environment",
+    "settlement_source",
+    "provider_order_id",
+    "webhook_event",
+    "webhook_verified",
+    "final_state",
+    "terminal"
+  ],
+  "properties": {
+    "protocol": {
+      "const": "paari"
+    },
+    "protocol_version": {
+      "const": "1.0"
+    },
+    "authorization_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "transaction_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider_environment": {
+      "enum": [
+        "test",
+        "live",
+        "simulated",
+        "unknown"
+      ],
+      "description": "Recorded at order-submission time from the credentials the adapter actually used. 'live' means real money; 'simulated' means a local stand-in answered; 'unknown' means Paari could not attribute the object and it must not be presented as a provider settlement."
+    },
+    "provider_key_id_prefix": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "First characters of the provider key id. Never a secret; identifies which key was in play."
+    },
+    "provider_api_base": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The base URL the order request was actually sent to."
+    },
+    "settlement_source": {
+      "enum": [
+        "provider",
+        "simulator",
+        "unattributed"
+      ],
+      "description": "Derived from provider_environment by the collector: test|live -> provider, simulated -> simulator, unknown -> unattributed. The pairing is asserted in tests/test_provider_provenance.py rather than in schema conditionals, because this project's schema validator refuses keywords it cannot check (tests/_schema_validator.py) and conditionals would mean extending a validator to describe a derivation that code already guarantees."
+    },
+    "provider_order_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Provider order/reference id when the provider has a distinct order object; autonomous providers may leave this null."
+    },
+    "provider_payment_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Provider payment/authorization reference. This is generic; it may be a Razorpay payment id or another provider's payment reference."
+    },
+    "webhook_event": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Null until the first provider webhook arrives."
+    },
+    "webhook_verified": {
+      "type": "boolean",
+      "description": "A delivery arrived whose signature verified. Says nothing about which environment the sender belonged to; read settlement_source for that."
+    },
+    "final_state": {
+      "enum": [
+        "AUTHORIZED",
+        "PROVIDER_SUBMITTED",
+        "PROVIDER_AUTHORIZED",
+        "CAPTURED",
+        "PAID",
+        "PAYMENT_PENDING",
+        "PROVIDER_UNKNOWN",
+        "FAILED",
+        "DECLINED",
+        "REFUNDED",
+        "REVERSED",
+        "EXPIRED",
+        "CANCELLED"
+      ],
+      "description": "PROVIDER_AUTHORIZED = the provider holds an authorisation, money not captured. CAPTURED = the provider announced a capture, not yet corroborated by a direct read. PAID = capture confirmed by reconciliation as well as the webhook. PAYMENT_PENDING is the retired pre-Phase-9 spelling of PROVIDER_AUTHORIZED and remains listed only so historical artifacts still validate."
+    },
+    "terminal": {
+      "type": "boolean",
+      "description": "Derived by the collector from the canonical terminal set; never set independently"
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "authorization_id": "auth-5e8f",
+      "transaction_id": "TXN-proof-f45a2f45",
+      "provider": "razorpay",
+      "provider_environment": "test",
+      "provider_key_id_prefix": "rzp_test_ABC",
+      "provider_api_base": "https://api.razorpay.com/v1",
+      "settlement_source": "provider",
+      "provider_order_id": "order_Q9f2c4a1b",
+      "provider_payment_id": "pay_Q9f2c4a1b",
+      "webhook_event": "evt_9f2c4a1b",
+      "webhook_verified": true,
+      "final_state": "PAID",
+      "terminal": true
+    },
+    {
+      "protocol": "paari",
+      "protocol_version": "1.0",
+      "authorization_id": "auth-71ac",
+      "transaction_id": "TXN-sim-0001",
+      "provider": "razorpay",
+      "provider_environment": "simulated",
+      "provider_key_id_prefix": "rzp_test_STU",
+      "provider_api_base": "http://127.0.0.1:55999/v1",
+      "settlement_source": "simulator",
+      "provider_order_id": "order_SIM00001",
+      "provider_payment_id": "pay_SIM00001",
+      "webhook_event": "evt_SIM00001",
+      "webhook_verified": true,
+      "final_state": "PAID",
+      "terminal": true
+    }
+  ]
+}
